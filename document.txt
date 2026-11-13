@@ -1,0 +1,43 @@
+                         M  A  N  U  A  L
+==================================================================
+
+INITIAL
+  cells = [0]
+  cell_addr = 0
+
+  current_cell_value = ref cells[cell_addr]
+
+SYNTAX
+
+  !
+    Reverse current_cell_value
+    0 => 1
+    1 => 0
+  <
+    If cell_addr is already 0
+      unshift new item into cells (value 0)
+    Else
+      move cursor left (cell_addr--)
+  >
+    If cell_addr is already refers to the last item of cells
+      push new item into cells (value 0)
+    Anyway
+      move cursor right (cell_addr++)
+  ^
+    Move cursor to the first item of cells (set cell_addr = 0)
+  $
+    Move cursor to the last item of cells (set cell_addr = cells.length - 1)
+  0[ EXPR ],
+    If current_cell_value == 0
+      do EXPR
+    Else
+      skip EXPR
+  1[ EXPR ],
+    If current_cell_value == 1
+      do EXPR
+    Else
+      skip EXPR
+  :[ EXPR ];
+    Repeat doing EXPR while not hit `_`
+  _
+    Break the closest repetition
