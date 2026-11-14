@@ -1,11 +1,15 @@
-# // Transfer JS into Python, a bit incompatible
+from .syntax_check import syntax_check
+import sys
+
 true = True
 false = False
 
-def zerone_exec(code: str):
+def zerone_exec(code: str) -> str:
+    code = "".join(c for c in code if c in "!<>^$01,:;_")
+    if not syntax_check(code): return "SyntaxError"
+
     result: list[bool] = [false]
     cursor: int = 0
-    code = code.strip()
     code_cursor: int = 0
     skipinside: bool = false
     skipstack: int = 1
@@ -54,7 +58,13 @@ def zerone_exec(code: str):
 
 def main() -> None:
     try:
-        print(zerone_exec(input("# ")))
+        if len(sys.argv) > 1:
+            with open(sys.argv[1]) as f:
+                print(zerone_exec(f.read()))
+        else:
+            print(zerone_exec(input("# ")))
     except KeyboardInterrupt:
         print()
+    except FileNotFoundError:
+        print("FileNotFound")
 
